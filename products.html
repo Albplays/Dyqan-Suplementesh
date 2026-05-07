@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Produktet tona — Proteina, Kreatina, Vitamina, Pre-Workout dhe shumë të tjera. Filtro dhe gjej suplemencën e duhur.">
+  <title>Produktet — PowerFit Supplements</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💪</text></svg>">
+</head>
+<body>
+
+<!-- ===== ANNOUNCEMENT BAR ===== -->
+<div class="announcement-bar" id="announcement-bar">
+  🚚 Shpërndarje FALAS për porosi mbi €50
+  <span>|</span>
+  🔒 Pagesë e sigurt me Stripe
+  <button onclick="closeBar()" aria-label="Mbyll" style="position:absolute;right:16px;top:50%;transform:translateY(-50%);background:none;border:none;color:inherit;font-size:1.1rem;cursor:pointer;opacity:0.7;line-height:1;padding:4px 6px;">✕</button>
+</div>
+
+<!-- ===== NAVIGATION ===== -->
+<nav aria-label="Navigimi kryesor">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      POWER<span class="accent">FIT</span>
+      <span class="sub">Supplements</span>
+    </a>
+    <ul class="nav-links" role="list">
+      <li><a href="index.html">Kreu</a></li>
+      <li><a href="products.html" class="active">Produktet</a></li>
+      <li><a href="products.html?cat=proteina">Proteina</a></li>
+      <li><a href="products.html?cat=vitamina">Vitamina</a></li>
+      <li><a href="index.html#kontakt">Kontakt</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="cart.html" class="cart-trigger" aria-label="Shporta">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        Shporta
+        <span class="cart-count" style="display:none">0</span>
+      </a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== MOBILE MENU ===== -->
+<nav class="mobile-menu" aria-label="Menu mobile">
+  <div class="mobile-menu-links">
+    <a href="index.html">Kreu</a>
+    <a href="products.html">Produktet</a>
+    <a href="products.html?cat=proteina">Proteina</a>
+    <a href="products.html?cat=vitamina">Vitamina</a>
+    <a href="cart.html">Shporta</a>
+  </div>
+  <a href="cart.html" class="btn btn-primary btn-full">Shko te Shporta</a>
+</nav>
+
+<!-- ===== PAGE HEADER ===== -->
+<header class="page-header" aria-label="Faqja e produkteve">
+  <div class="container">
+    <nav class="page-breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html">Kreu</a>
+      <span>›</span>
+      <span id="breadcrumb-current">Produktet</span>
+    </nav>
+    <h1 class="page-h1" id="page-title">
+      TË GJITHA <span class="accent">PRODUKTET</span>
+    </h1>
+  </div>
+</header>
+
+<!-- ===== PRODUCTS LAYOUT ===== -->
+<section class="section" aria-label="Lista e produkteve">
+  <div class="container">
+    <div class="products-layout">
+
+      <!-- FILTERS SIDEBAR -->
+      <aside class="filters-sidebar" aria-label="Filtrat">
+        <div class="filter-group">
+          <div class="filter-title">Kategorite</div>
+          <div class="filter-options" id="category-filters">
+            <label class="filter-option">
+              <input type="checkbox" name="cat" value="all" checked onchange="applyFilters()">
+              <span class="filter-checkbox"></span>
+              <span class="filter-label">Të Gjitha</span>
+              <span class="filter-count">12</span>
+            </label>
+            <label class="filter-option">
+              <input type="checkbox" name="cat" value="proteina" onchange="applyFilters()">
+              <span class="filter-checkbox"></span>
+              <span class="filter-label">💪 Proteina</span>
+              <span class="filter-count">3</span>
+            </label>
+            <label class="filter-option">
+              <input type="checkbox" name="cat" value="kreatina" onchange="applyFilters()">
+              <span class="filter-checkbox"></span>
+              <span class="filter-label">⚡ Kreatina</span>
+              <span class="filter-count">1</span>
+            </label>
+            <label class="filter-option">
+              <input type="checkbox" name="cat" value="aminoacide" onchange="applyFilters()">
+              <span class="filter-checkbox"></span>
+              <span class="filter-label">🔬 Aminoacide</span>
+              <span class="filter-count">2</span>
+            </label>
+            <label class="filter-option">
+              <input type="checkbox" name="cat" value="vitamina" onchange="applyFilters()">
+              <span class="filter-checkbox"></span>
+              <span class="filter-label">🌿 Vitamina</span>
+              <span class="filter-count">5</span>
+            </label>
+            <label class="filter-option">
+              <input type="checkbox" name="cat" value="preworkout" onchange="applyFilters()">
+              <span class="filter-checkbox"></span>
+              <span class="filter-label">🔥 Pre-Workout</span>
+              <span class="filter-count">1</span>
+            </label>
+            <label class="filter-option">
+              <input type="checkbox" name="cat" value="massgainer" onchange="applyFilters()">
+              <span class="filter-checkbox"></span>
+              <span class="filter-label">🏋️ Mass Gainer</span>
+              <span class="filter-count">1</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <div class="filter-title">Cmimi (€)</div>
+          <div class="price-range">
+            <div class="range-inputs">
+              <input type="number" id="price-min" value="0" min="0" max="200" placeholder="Min" onchange="applyFilters()" aria-label="Çmimi minimal">
+              <span class="range-sep">—</span>
+              <input type="number" id="price-max" value="200" min="0" max="200" placeholder="Max" onchange="applyFilters()" aria-label="Çmimi maksimal">
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <div class="filter-title">Ofertat</div>
+          <div class="filter-options">
+            <label class="filter-option">
+              <input type="checkbox" id="filter-sale" onchange="applyFilters()">
+              <span class="filter-checkbox"></span>
+              <span class="filter-label">Vetëm me zbritje</span>
+            </label>
+            <label class="filter-option">
+              <input type="checkbox" id="filter-new" onchange="applyFilters()">
+              <span class="filter-checkbox"></span>
+              <span class="filter-label">Të reja</span>
+            </label>
+          </div>
+        </div>
+
+        <button class="btn btn-ghost btn-sm btn-full" onclick="resetFilters()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+          Rivendos Filtrat
+        </button>
+      </aside>
+
+      <!-- PRODUCTS AREA -->
+      <div>
+        <div class="products-header">
+          <p class="products-count">
+            Duke treguar <strong id="visible-count">12</strong> nga <strong>12</strong> produkte
+          </p>
+          <select class="sort-select" id="sort-select" onchange="applyFilters()" aria-label="Rendit produktet">
+            <option value="default">Të rekomanduara</option>
+            <option value="price-asc">Çmimi: i ulët → i lartë</option>
+            <option value="price-desc">Çmimi: i lartë → i ulët</option>
+            <option value="rating">Vlerësimet</option>
+            <option value="name">Emri (A-Z)</option>
+          </select>
+        </div>
+
+        <div class="products-grid" id="products-grid">
+          <!-- Rendered by JS -->
+        </div>
+
+        <div id="no-results" style="display:none">
+          <div class="empty-state">
+            <div class="empty-state-icon">🔍</div>
+            <h3 class="empty-state-title">Nuk u gjet asgjë</h3>
+            <p class="empty-state-sub">Provo të ndryshosh filtrat ose rivendosi ato.</p>
+            <button class="btn btn-primary" onclick="resetFilters()">Rivendos Filtrat</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer aria-label="Footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="footer-logo">POWER<span>FIT</span></a>
+        <p class="footer-desc">Dyqani juaj i besuar për suplemente cilësore.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-btn" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+          <a href="#" class="social-btn" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-heading">Produktet</div>
+        <ul class="footer-links">
+          <li><a href="products.html?cat=proteina">Proteina</a></li>
+          <li><a href="products.html?cat=kreatina">Kreatina</a></li>
+          <li><a href="products.html?cat=aminoacide">Aminoacide</a></li>
+          <li><a href="products.html?cat=vitamina">Vitamina</a></li>
+          <li><a href="products.html?cat=preworkout">Pre-Workout</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Informacion</div>
+        <ul class="footer-links">
+          <li><a href="#">Rreth Nesh</a></li>
+          <li><a href="#">Politika e Privatësisë</a></li>
+          <li><a href="#">Kushtet e Shërbimit</a></li>
+          <li><a href="#">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Kontakt</div>
+        <ul class="footer-links">
+          <li><a href="mailto:info@powerfit.al">info@powerfit.al</a></li>
+          <li><a href="tel:+355699999999">+355 69 999 9999</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 PowerFit Supplements. Të gjitha të drejtat të rezervuara.</p>
+      <div class="footer-pay">
+        <span class="pay-icon">VISA</span>
+        <span class="pay-icon">MC</span>
+        <span class="pay-icon">STRIPE</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/products-data.js"></script>
+<script src="js/cart.js"></script>
+<script>
+  let filteredProducts = [...PRODUCTS];
+
+  function applyFilters() {
+    const catChecks = [...document.querySelectorAll('input[name="cat"]:checked')].map(el => el.value);
+    const showAll = catChecks.includes('all') || catChecks.length === 0;
+    const priceMin = parseFloat(document.getElementById('price-min').value) || 0;
+    const priceMax = parseFloat(document.getElementById('price-max').value) || 9999;
+    const onlySale = document.getElementById('filter-sale').checked;
+    const onlyNew = document.getElementById('filter-new').checked;
+    const sortVal = document.getElementById('sort-select').value;
+
+    filteredProducts = PRODUCTS.filter(p => {
+      if (!showAll && !catChecks.includes(p.category)) return false;
+      if (p.price < priceMin || p.price > priceMax) return false;
+      if (onlySale && p.badge !== 'sale' && p.oldPrice === null) return false;
+      if (onlyNew && p.badge !== 'new') return false;
+      return true;
+    });
+
+    switch (sortVal) {
+      case 'price-asc':  filteredProducts.sort((a,b) => a.price - b.price); break;
+      case 'price-desc': filteredProducts.sort((a,b) => b.price - a.price); break;
+      case 'rating':     filteredProducts.sort((a,b) => b.rating - a.rating); break;
+      case 'name':       filteredProducts.sort((a,b) => a.name.localeCompare(b.name)); break;
+    }
+
+    renderProducts();
+  }
+
+  function renderProducts() {
+    const grid = document.getElementById('products-grid');
+    const noResults = document.getElementById('no-results');
+    const countEl = document.getElementById('visible-count');
+    if (!grid) return;
+
+    if (filteredProducts.length === 0) {
+      grid.innerHTML = '';
+      noResults.style.display = 'block';
+    } else {
+      noResults.style.display = 'none';
+      grid.innerHTML = filteredProducts.map((p, i) => renderProductCard(p, i)).join('');
+      setTimeout(() => initScrollAnimations(), 50);
+    }
+    if (countEl) countEl.textContent = filteredProducts.length;
+  }
+
+  function resetFilters() {
+    document.querySelectorAll('input[name="cat"]').forEach(el => {
+      el.checked = el.value === 'all';
+    });
+    document.getElementById('price-min').value = 0;
+    document.getElementById('price-max').value = 200;
+    document.getElementById('filter-sale').checked = false;
+    document.getElementById('filter-new').checked = false;
+    document.getElementById('sort-select').value = 'default';
+    applyFilters();
+  }
+
+  /* Handle URL param ?cat=xxx */
+  const urlParams = new URLSearchParams(window.location.search);
+  const catParam = urlParams.get('cat');
+  if (catParam) {
+    document.querySelectorAll('input[name="cat"]').forEach(el => {
+      el.checked = el.value === catParam;
+    });
+    const allOpt = document.querySelector('input[name="cat"][value="all"]');
+    if (allOpt) allOpt.checked = false;
+
+    const catData = CATEGORIES.find(c => c.id === catParam);
+    const titleEl = document.getElementById('page-title');
+    const breadcrumb = document.getElementById('breadcrumb-current');
+    if (catData && titleEl) {
+      titleEl.innerHTML = `${catData.label.toUpperCase()} <span class="accent">${catData.emoji}</span>`;
+    }
+    if (catData && breadcrumb) breadcrumb.textContent = catData.label;
+  }
+
+  applyFilters();
+</script>
+</body>
+</html>

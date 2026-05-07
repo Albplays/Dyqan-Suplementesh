@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Checkout — Përfundo porosinë tënde tek PowerFit Supplements">
+  <title>Checkout — PowerFit Supplements</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💪</text></svg>">
+  <!-- Stripe.js -->
+  <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    .step-indicator {
+      display:flex; align-items:center; gap:0; margin-bottom:32px;
+    }
+    .step {
+      display:flex; align-items:center; gap:8px;
+      font-family:var(--font-condensed); font-size:0.8rem;
+      font-weight:700; letter-spacing:0.1em; text-transform:uppercase;
+      color:var(--muted);
+    }
+    .step.active { color:var(--orange); }
+    .step.done { color:var(--success); }
+    .step-num {
+      width:28px; height:28px; border-radius:50%;
+      background:var(--bg-3); border:2px solid var(--border);
+      display:flex; align-items:center; justify-content:center;
+      font-size:0.78rem; font-weight:800; flex-shrink:0;
+    }
+    .step.active .step-num { background:var(--orange); border-color:var(--orange); color:var(--bg); }
+    .step.done .step-num { background:var(--success); border-color:var(--success); color:var(--bg); }
+    .step-line { flex:1; height:2px; background:var(--border); margin:0 8px; max-width:60px; }
+    .step-line.done { background:var(--success); }
+    .payment-methods {
+      display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap;
+    }
+    .pay-method {
+      flex:1; min-width:80px; padding:12px;
+      background:var(--bg-3); border:2px solid var(--border);
+      border-radius:var(--radius); cursor:pointer; text-align:center;
+      transition:var(--t); position:relative;
+    }
+    .pay-method.selected { border-color:var(--orange); background:rgba(255,107,53,0.05); }
+    .pay-method-name { font-family:var(--font-condensed); font-size:0.8rem; font-weight:700; color:var(--text); }
+    .order-success {
+      display:none; text-align:center; padding:60px 40px;
+      background:var(--card); border:1px solid var(--success);
+      border-radius:var(--radius-lg);
+    }
+    .order-success-icon { font-size:4rem; margin-bottom:20px; }
+    .order-success-title { font-family:var(--font-display); font-size:3rem; color:var(--success); margin-bottom:12px; }
+    .order-success-sub { font-size:1rem; color:var(--muted); margin-bottom:28px; line-height:1.7; }
+    .order-number {
+      display:inline-block; padding:8px 20px;
+      background:rgba(34,197,94,0.1); border:1px solid var(--success);
+      border-radius:var(--radius); font-family:var(--font-condensed);
+      font-weight:700; color:var(--success); letter-spacing:0.1em; margin-bottom:28px;
+    }
+    #payment-processing {
+      display:none; text-align:center; padding:40px;
+    }
+    .spinner {
+      width:48px; height:48px; border:3px solid var(--border);
+      border-top-color:var(--orange); border-radius:50%;
+      animation:spin 0.8s linear infinite; margin:0 auto 16px;
+    }
+    @keyframes spin { to { transform:rotate(360deg); } }
+  </style>
+</head>
+<body>
+<script>document.documentElement.style.setProperty('--bar-h','0px');</script>
+
+<!-- ===== NAVIGATION ===== -->
+<nav aria-label="Navigimi kryesor">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      POWER<span class="accent">FIT</span>
+      <span class="sub">Supplements</span>
+    </a>
+    <ul class="nav-links" role="list">
+      <li><a href="index.html">Kreu</a></li>
+      <li><a href="products.html">Produktet</a></li>
+      <li><a href="products.html?cat=proteina">Proteina</a></li>
+      <li><a href="products.html?cat=vitamina">Vitamina</a></li>
+      <li><a href="index.html#kontakt">Kontakt</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="cart.html" class="cart-trigger" aria-label="Shporta">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        Shporta
+        <span class="cart-count" style="display:none">0</span>
+      </a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== MOBILE MENU ===== -->
+<nav class="mobile-menu" aria-label="Menu mobile">
+  <div class="mobile-menu-links">
+    <a href="index.html">Kreu</a>
+    <a href="products.html">Produktet</a>
+    <a href="products.html?cat=proteina">Proteina</a>
+    <a href="products.html?cat=vitamina">Vitamina</a>
+    <a href="cart.html">Shporta</a>
+  </div>
+  <a href="cart.html" class="btn btn-primary btn-full">Shko te Shporta</a>
+</nav>
+
+<!-- ===== PAGE HEADER ===== -->
+<header class="page-header">
+  <div class="container">
+    <nav class="page-breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html">Kreu</a>
+      <span>›</span>
+      <a href="cart.html">Shporta</a>
+      <span>›</span>
+      <span>Checkout</span>
+    </nav>
+    <h1 class="page-h1">CHECKOUT <span class="accent">SIGURT</span></h1>
+  </div>
+</header>
+
+<!-- ===== CHECKOUT ===== -->
+<section class="section" aria-label="Formulari i checkout-it">
+  <div class="container">
+
+    <!-- Success state (shown after payment) -->
+    <div id="order-success" class="order-success" role="alert" aria-live="polite">
+      <div class="order-success-icon">🎉</div>
+      <h2 class="order-success-title">POROSIA U KRYE!</h2>
+      <p class="order-success-sub">
+        Faleminderit për porosinë tuaj! Do të merrni një email konfirmimi brenda disa minutash.<br>
+        Produktet tuaja do të dërgohen brenda 2-3 ditëve pune.
+      </p>
+      <div class="order-number" id="order-number-display">Porosia #PF-000000</div>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <a href="index.html" class="btn btn-primary btn-lg">Kthehu në Dyqan</a>
+        <a href="products.html" class="btn btn-outline btn-lg">Shiko Produktet</a>
+      </div>
+    </div>
+
+    <!-- Processing state -->
+    <div id="payment-processing">
+      <div class="spinner"></div>
+      <p style="color:var(--muted);font-family:var(--font-condensed);font-weight:700;letter-spacing:0.1em;text-transform:uppercase">Duke procesuar pagesën...</p>
+    </div>
+
+    <!-- Checkout form -->
+    <div id="checkout-form-wrapper" class="checkout-layout">
+
+      <!-- LEFT: Forms -->
+      <div>
+        <!-- Step Indicator -->
+        <div class="step-indicator" aria-label="Hapat e checkout-it">
+          <div class="step done" aria-current="false">
+            <span class="step-num">✓</span>
+            Shporta
+          </div>
+          <div class="step-line done"></div>
+          <div class="step active" aria-current="step">
+            <span class="step-num">2</span>
+            Informacioni
+          </div>
+          <div class="step-line"></div>
+          <div class="step">
+            <span class="step-num">3</span>
+            Pagesa
+          </div>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="checkout-form-section" style="margin-bottom:20px">
+          <h2 class="form-section-title">📦 Informacioni i Dorëzimit</h2>
+          <form id="contact-form">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label" for="first-name">Emri *</label>
+                <input type="text" id="first-name" class="form-input" placeholder="Emri juaj" required autocomplete="given-name">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="last-name">Mbiemri *</label>
+                <input type="text" id="last-name" class="form-input" placeholder="Mbiemri juaj" required autocomplete="family-name">
+              </div>
+              <div class="form-group form-grid-full">
+                <label class="form-label" for="email">Email *</label>
+                <input type="email" id="email" class="form-input" placeholder="emaili@juaj.com" required autocomplete="email">
+              </div>
+              <div class="form-group form-grid-full">
+                <label class="form-label" for="phone">Numri i Telefonit *</label>
+                <input type="tel" id="phone" class="form-input" placeholder="+355 6X XXX XXXX" required autocomplete="tel">
+              </div>
+              <div class="form-group form-grid-full">
+                <label class="form-label" for="address">Adresa *</label>
+                <input type="text" id="address" class="form-input" placeholder="Rruga dhe numri" required autocomplete="street-address">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="city">Qyteti *</label>
+                <input type="text" id="city" class="form-input" placeholder="Tiranë" required autocomplete="address-level2">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="zip">Kodi Postar</label>
+                <input type="text" id="zip" class="form-input" placeholder="1001" autocomplete="postal-code">
+              </div>
+              <div class="form-group form-grid-full">
+                <label class="form-label" for="country">Shteti *</label>
+                <select id="country" class="form-input form-select" required autocomplete="country">
+                  <option value="AL" selected>🇦🇱 Shqipëri</option>
+                  <option value="XK">🇽🇰 Kosovë</option>
+                  <option value="MK">🇲🇰 Maqedoni e Veriut</option>
+                  <option value="ME">🇲🇪 Mal i Zi</option>
+                  <option value="RS">🇷🇸 Serbi</option>
+                  <option value="DE">🇩🇪 Gjermani</option>
+                  <option value="IT">🇮🇹 Itali</option>
+                  <option value="GB">🇬🇧 Mbretëria e Bashkuar</option>
+                  <option value="US">🇺🇸 Shtetet e Bashkuara</option>
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Payment Info -->
+        <div class="checkout-form-section">
+          <h2 class="form-section-title">💳 Mënyra e Pagesës</h2>
+
+          <div class="payment-methods" role="group" aria-label="Zgjedh mënyrën e pagesës">
+            <div class="pay-method selected" onclick="selectPayMethod(this,'card')" role="radio" aria-checked="true" tabindex="0">
+              <div style="font-size:1.4rem;margin-bottom:4px">💳</div>
+              <div class="pay-method-name">Kartë</div>
+            </div>
+            <div class="pay-method" onclick="selectPayMethod(this,'cash')" role="radio" aria-checked="false" tabindex="0">
+              <div style="font-size:1.4rem;margin-bottom:4px">💵</div>
+              <div class="pay-method-name">Kesh</div>
+            </div>
+            <div class="pay-method" onclick="selectPayMethod(this,'bank')" role="radio" aria-checked="false" tabindex="0">
+              <div style="font-size:1.4rem;margin-bottom:4px">🏦</div>
+              <div class="pay-method-name">Banke</div>
+            </div>
+          </div>
+
+          <!-- Stripe Card Element -->
+          <div id="card-payment-section" class="stripe-section">
+            <p class="stripe-label">Të dhënat e kartës</p>
+            <div id="card-element" role="group" aria-label="Informacioni i kartës së kreditit"></div>
+            <div id="card-errors" role="alert" aria-live="polite"></div>
+            <div style="margin-top:12px;padding:12px 16px;background:rgba(255,107,53,0.05);border:1px solid rgba(255,107,53,0.2);border-radius:var(--radius)">
+              <p style="font-size:0.78rem;color:var(--muted)">
+                🔒 Pagesa juaj është e enkriptuar dhe e sigurt. PowerFit kurrë nuk ruan të dhënat e kartës suaj.
+                Të gjitha pagesat processohen nga <strong style="color:var(--text)">Stripe</strong>.
+              </p>
+            </div>
+          </div>
+
+          <!-- Cash on delivery -->
+          <div id="cash-section" style="display:none;padding:20px;background:var(--bg-3);border:1px solid var(--border);border-radius:var(--radius)">
+            <p style="font-size:0.9rem;color:var(--text)">
+              💵 <strong>Pagesa me kesh gjatë dorëzimit.</strong><br>
+              <span style="color:var(--muted);font-size:0.85rem">Do të paguani korierin kur të arrijnë produktet tuaja. Mund të aplikohet tarifa shtesë prej €2.</span>
+            </p>
+          </div>
+
+          <!-- Bank transfer -->
+          <div id="bank-section" style="display:none;padding:20px;background:var(--bg-3);border:1px solid var(--border);border-radius:var(--radius)">
+            <p style="font-size:0.9rem;color:var(--text);margin-bottom:12px">
+              🏦 <strong>Transfertë bankare</strong>
+            </p>
+            <div style="font-size:0.85rem;color:var(--muted);line-height:1.8">
+              <div><strong style="color:var(--text)">Banka:</strong> Raiffeisen Bank Albania</div>
+              <div><strong style="color:var(--text)">IBAN:</strong> AL47 2121 1009 0000 0002 3569 8741</div>
+              <div><strong style="color:var(--text)">Emri:</strong> PowerFit Supplements Sh.p.k.</div>
+              <div><strong style="color:var(--text)">Referencë:</strong> Numri i porosisë (pas konfirmimit)</div>
+            </div>
+          </div>
+
+          <button id="submit-btn" class="btn btn-primary btn-full btn-lg" style="margin-top:24px" onclick="handleSubmit()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+            <span id="submit-label">Përfundo Porosinë</span>
+          </button>
+
+          <div class="secure-badges" style="margin-top:20px">
+            <div class="secure-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              128-bit SSL
+            </div>
+            <div class="secure-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              PCI Compliant
+            </div>
+            <div class="secure-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              24/7 Mbështetje
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Order Summary -->
+      <div class="order-summary">
+        <h2 class="summary-title" style="font-size:1.5rem;margin-bottom:20px">POROSIA JOTE</h2>
+        <div class="order-items" id="order-items">
+          <!-- Rendered by JS -->
+        </div>
+        <div class="summary-lines">
+          <div class="summary-line">
+            <span>Nëntotali</span>
+            <span id="co-subtotal">€0.00</span>
+          </div>
+          <div class="summary-line">
+            <span>Shpërndarje</span>
+            <span id="co-shipping" style="color:var(--success)">Falas</span>
+          </div>
+          <div class="summary-line total">
+            <span>TOTALI</span>
+            <span class="amount" id="co-total">€0.00</span>
+          </div>
+        </div>
+        <div style="margin-top:20px;padding:14px;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:var(--radius)">
+          <p style="font-size:0.8rem;color:var(--success);text-align:center">
+            ✅ Produktet tuaja janë të rezervuara
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MINIMAL FOOTER ===== -->
+<footer style="background:var(--bg-2);border-top:1px solid var(--border);padding:24px 0;margin-top:60px">
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px">
+    <p style="font-size:0.8rem;color:var(--muted)">© 2026 PowerFit Supplements — Projekt nga Albion Çaushi &amp; Bjorni Kule, Klasa 11-B</p>
+    <div class="footer-pay">
+      <span class="pay-icon">VISA</span>
+      <span class="pay-icon">MC</span>
+      <span class="pay-icon">STRIPE</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/products-data.js"></script>
+<script src="js/cart.js"></script>
+<script>
+  /* ===== STRIPE SETUP ===== */
+  /* Replace 'pk_test_...' with your actual Stripe publishable key */
+  const STRIPE_PUBLIC_KEY = 'pk_test_51TU7xxEvjT9idJrDl2ezAWX0Jh1bIM2NsSxb2n9hzxxFWiFH9mOAwndTTc6Iin6yPJEVTME6H4s07LLG8g8EOHRI00fywqw25k';
+  let stripe, cardElement, selectedPayMethod = 'card';
+
+  try {
+    stripe = Stripe(STRIPE_PUBLIC_KEY);
+    const elements = stripe.elements({
+      appearance: {
+        theme: 'night',
+        variables: {
+          colorPrimary: '#FF6B35',
+          colorBackground: '#1a1a1a',
+          colorText: '#e0e0e0',
+          colorDanger: '#ef4444',
+          fontFamily: 'Barlow, sans-serif',
+          borderRadius: '3px',
+        }
+      }
+    });
+    cardElement = elements.create('card', {
+      style: {
+        base: {
+          color: '#e0e0e0',
+          fontFamily: 'Barlow, sans-serif',
+          fontSize: '16px',
+          '::placeholder': { color: '#555555' }
+        }
+      }
+    });
+    cardElement.mount('#card-element');
+    cardElement.on('change', (e) => {
+      const errEl = document.getElementById('card-errors');
+      errEl.textContent = e.error ? e.error.message : '';
+    });
+  } catch(e) {
+    console.warn('Stripe not initialized — demo mode active. Replace STRIPE_PUBLIC_KEY with your key.');
+    document.getElementById('card-element').innerHTML =
+      '<p style="color:var(--muted);font-size:0.85rem;padding:10px 0">Stripe demo mode — konfiguro çelësin e API-së në <code>checkout.html</code></p>';
+  }
+
+  /* ===== PAYMENT METHOD TOGGLE ===== */
+  function selectPayMethod(el, method) {
+    document.querySelectorAll('.pay-method').forEach(m => {
+      m.classList.remove('selected');
+      m.setAttribute('aria-checked', 'false');
+    });
+    el.classList.add('selected');
+    el.setAttribute('aria-checked', 'true');
+    selectedPayMethod = method;
+
+    document.getElementById('card-payment-section').style.display = method === 'card' ? 'block' : 'none';
+    document.getElementById('cash-section').style.display = method === 'cash' ? 'block' : 'none';
+    document.getElementById('bank-section').style.display = method === 'bank' ? 'block' : 'none';
+
+    const submitLabel = document.getElementById('submit-label');
+    submitLabel.textContent = method === 'card' ? 'Përfundo Porosinë' :
+                              method === 'cash' ? 'Konfirmo Porosinë (Kesh)' :
+                              'Konfirmo — Do të paguaj me Transfertë';
+  }
+
+  /* ===== FORM VALIDATION ===== */
+  function validateForm() {
+    const required = ['first-name','last-name','email','phone','address','city','country'];
+    for (const id of required) {
+      const el = document.getElementById(id);
+      if (!el.value.trim()) {
+        el.focus();
+        el.style.borderColor = 'var(--danger)';
+        setTimeout(() => el.style.borderColor = '', 2000);
+        showToast('Plotëso të gjitha fushat e detyrueshme', '', '⚠️');
+        return false;
+      }
+    }
+    const email = document.getElementById('email').value;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showToast('Email-i nuk është valid', '', '⚠️');
+      return false;
+    }
+    return true;
+  }
+
+  /* ===== SUBMIT ===== */
+  async function handleSubmit() {
+    if (Cart.get().length === 0) {
+      showToast('Shporta është bosh!', 'Shto produkte para se të paguash.', '⚠️');
+      return;
+    }
+    if (!validateForm()) return;
+
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+
+    if (selectedPayMethod !== 'card') {
+      /* Non-Stripe payment */
+      processOrderSuccess();
+      return;
+    }
+
+    /* Stripe card payment */
+    document.getElementById('checkout-form-wrapper').style.display = 'none';
+    document.getElementById('payment-processing').style.display = 'block';
+
+    try {
+      const items = Cart.get();
+      const subtotal = Cart.total();
+      const shipping = subtotal >= 50 ? 0 : 4.99;
+      const total = subtotal + shipping;
+
+      /* Provo PHP backend (XAMPP). Nëse nuk është aktiv, kalon në demo. */
+      let clientSecret = null;
+      const onServer = location.protocol === 'http:' || location.protocol === 'https:';
+
+      if (onServer && stripe && cardElement) {
+        try {
+          const res = await fetch('php/create-payment-intent.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              amount: total,
+              currency: 'eur',
+              customer: {
+                name: document.getElementById('first-name').value + ' ' + document.getElementById('last-name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value + ', ' + document.getElementById('city').value,
+              },
+              items: items.map(i => ({ name: i.name, qty: i.qty, price: i.price }))
+            })
+          });
+          if (res.ok) {
+            const data = await res.json();
+            if (data.error) throw new Error(data.error);
+            clientSecret = data.client_secret;
+          }
+        } catch(phpErr) {
+          console.warn('PHP backend jo aktiv — demo mode:', phpErr.message);
+        }
+      }
+
+      if (clientSecret && stripe && cardElement) {
+        /* Pagesa reale me Stripe */
+        const result = await stripe.confirmCardPayment(clientSecret, {
+          payment_method: { card: cardElement }
+        });
+        if (result.error) throw new Error(result.error.message);
+      } else {
+        /* Demo mode — simulim (file:// ose XAMPP jo aktiv) */
+        await new Promise(r => setTimeout(r, 1800));
+      }
+
+      /* Ruaj porosinë në DB (vetëm kur XAMPP aktiv) */
+      if (onServer) {
+        try {
+          await fetch('php/process-order.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              payment_intent_id: clientSecret ? clientSecret.split('_secret')[0] : 'demo_' + Date.now(),
+              customer: {
+                name: document.getElementById('first-name').value + ' ' + document.getElementById('last-name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value + ', ' + document.getElementById('city').value,
+              },
+              items: Cart.get().map(i => ({ name: i.name, qty: i.qty, price: i.price })),
+            })
+          });
+        } catch(e) { /* DB opsionale, nuk ndal flow-n */ }
+      }
+
+      processOrderSuccess();
+    } catch(err) {
+      document.getElementById('checkout-form-wrapper').style.display = 'grid';
+      document.getElementById('payment-processing').style.display = 'none';
+      document.getElementById('card-errors').textContent = err.message || 'Gabim gjatë pagesës.';
+      btn.disabled = false;
+      btn.style.opacity = '1';
+    }
+  }
+
+  function processOrderSuccess() {
+    const orderNum = 'PF-' + Math.floor(100000 + Math.random() * 900000);
+    document.getElementById('payment-processing').style.display = 'none';
+    document.getElementById('checkout-form-wrapper').style.display = 'none';
+    document.getElementById('order-number-display').textContent = `Porosia #${orderNum}`;
+    document.getElementById('order-success').style.display = 'block';
+    document.getElementById('order-success').scrollIntoView({ behavior:'smooth' });
+    Cart.clear();
+  }
+
+  /* ===== RENDER ORDER SUMMARY ===== */
+  function renderOrderSummary() {
+    const items = Cart.get();
+    const orderItems = document.getElementById('order-items');
+
+    if (items.length === 0) {
+      window.location.href = 'cart.html';
+      return;
+    }
+
+    orderItems.innerHTML = items.map(item => `
+      <div class="order-item">
+        <div class="order-item-img" style="background:linear-gradient(135deg,${item.bgColor},${item.accentColor}22);display:flex;align-items:center;justify-content:center;font-size:1.5rem">
+          ${item.emoji}
+        </div>
+        <div>
+          <div class="order-item-name">${item.name}</div>
+          <div class="order-item-qty">Sasi: ${item.qty}</div>
+        </div>
+        <div class="order-item-price">€${(item.price * item.qty).toFixed(2)}</div>
+      </div>
+    `).join('');
+
+    const subtotal = Cart.total();
+    const shipping = subtotal >= 50 ? 0 : 4.99;
+    const total = subtotal + shipping;
+
+    document.getElementById('co-subtotal').textContent = `€${subtotal.toFixed(2)}`;
+    const shipEl = document.getElementById('co-shipping');
+    shipEl.textContent = shipping === 0 ? 'Falas' : `€${shipping.toFixed(2)}`;
+    shipEl.style.color = shipping === 0 ? 'var(--success)' : '';
+    document.getElementById('co-total').textContent = `€${total.toFixed(2)}`;
+  }
+
+  renderOrderSummary();
+</script>
+</body>
+</html>

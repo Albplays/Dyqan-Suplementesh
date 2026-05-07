@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PowerFit Supplements - Suplemente cilësore për performancë maksimale. Proteina, Kreatina, Vitamina dhe më shumë.">
+  <title>PowerFit Supplements — Suplemente Cilësore</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💪</text></svg>">
+</head>
+<body>
+
+<!-- ===== ANNOUNCEMENT BAR ===== -->
+<div class="announcement-bar" id="announcement-bar">
+  🚚 Shpërndarje FALAS për porosi mbi €50
+  <span>|</span>
+  Produktet autentike me certifikim ndërkombëtar
+  <span>|</span>
+  🔒 Pagesë e sigurt me Stripe
+  <button onclick="closeBar()" aria-label="Mbyll" style="position:absolute;right:16px;top:50%;transform:translateY(-50%);background:none;border:none;color:inherit;font-size:1.1rem;cursor:pointer;opacity:0.7;line-height:1;padding:4px 6px;">✕</button>
+</div>
+
+<!-- ===== NAVIGATION ===== -->
+<nav aria-label="Navigimi kryesor">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      POWER<span class="accent">FIT</span>
+      <span class="sub">Supplements</span>
+    </a>
+    <ul class="nav-links" role="list">
+      <li><a href="index.html" class="active">Kreu</a></li>
+      <li><a href="products.html">Produktet</a></li>
+      <li><a href="products.html?cat=proteina">Proteina</a></li>
+      <li><a href="products.html?cat=vitamina">Vitamina</a></li>
+      <li><a href="#kontakt">Kontakt</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="cart.html" class="cart-trigger" aria-label="Shporta">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        Shporta
+        <span class="cart-count" style="display:none">0</span>
+      </a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== MOBILE MENU ===== -->
+<nav id="mobile-menu" class="mobile-menu" aria-label="Menu mobile">
+  <div class="mobile-menu-links">
+    <a href="index.html">Kreu</a>
+    <a href="products.html">Produktet</a>
+    <a href="products.html?cat=proteina">Proteina</a>
+    <a href="products.html?cat=vitamina">Vitamina</a>
+    <a href="cart.html">Shporta</a>
+    <a href="#kontakt">Kontakt</a>
+  </div>
+  <a href="cart.html" class="btn btn-primary btn-full">Shko te Shporta</a>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero" aria-label="Hero">
+  <div class="hero-bg-gradient"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="hero-diagonal"></div>
+
+  <div class="hero-content">
+    <div class="hero-text">
+      <div class="hero-eyebrow">
+        <p class="label label-line">Cilësia që të merr deri lart</p>
+      </div>
+      <h1 class="hero-title">
+        FUQIA
+        <span class="line-accent">E DUHUR</span>
+        <span class="line-outline">ÇDOHERË</span>
+      </h1>
+      <p class="hero-subtitle">
+        Suplemente premium të certifikuara ndërkombëtarisht. Proteina, kreatina, vitamina dhe çdo gjë që trupi yt ka nevojë për performancë maksimale.
+      </p>
+      <div class="hero-cta">
+        <a href="products.html" class="btn btn-primary btn-lg">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          Shiko Produktet
+        </a>
+        <a href="#categories" class="btn btn-outline btn-lg">Kategoritë</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item fade-up">
+          <span class="stat-num" data-target="500" data-suffix="+">0+</span>
+          <span class="stat-lbl">Klientë të kënaqur</span>
+        </div>
+        <div class="stat-item fade-up fade-up-delay-1">
+          <span class="stat-num" data-target="50" data-suffix="+">0+</span>
+          <span class="stat-lbl">Produkte premium</span>
+        </div>
+        <div class="stat-item fade-up fade-up-delay-2">
+          <span class="stat-num" data-target="100" data-suffix="%">0%</span>
+          <span class="stat-lbl">Autentike & certifikuara</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual" aria-hidden="true">
+      <div class="hero-product-showcase">
+        <div class="showcase-ring"></div>
+        <div class="showcase-ring-2"></div>
+        <div class="showcase-card showcase-side-1">
+          <div class="showcase-img" style="background:linear-gradient(135deg,#1a0a0a,#ef444444)">
+            <span style="font-size:2rem">⚡</span>
+            <span style="font-family:var(--font-display);color:#ef4444;font-size:0.9rem">KREATINË</span>
+          </div>
+        </div>
+        <div class="showcase-card showcase-main">
+          <span class="showcase-badge">Bestseller</span>
+          <div class="showcase-img" style="background:linear-gradient(135deg,#1a0d2e,#a855f744)">
+            <span style="font-size:4rem">💪</span>
+            <span style="font-family:var(--font-display);color:#a855f7;font-size:1.1rem">WHEY PROTEIN</span>
+            <span style="font-size:0.7rem;color:#888;letter-spacing:0.1em">GOLD STANDARD</span>
+          </div>
+        </div>
+        <div class="showcase-card showcase-side-2">
+          <div class="showcase-img" style="background:linear-gradient(135deg,#0a1a0a,#22c55e44)">
+            <span style="font-size:1.8rem">🌿</span>
+            <span style="font-family:var(--font-display);color:#22c55e;font-size:0.85rem">VITAMINA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TRUST BAR ===== -->
+<div class="trust-bar" aria-label="Avantazhet tona">
+  <div class="container">
+    <div class="trust-items">
+      <div class="trust-item">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+        <div class="trust-item-text">
+          <div class="trust-item-label">Shpërndarje Falas</div>
+          <div class="trust-item-sub">Për porosi mbi €50</div>
+        </div>
+      </div>
+      <div class="trust-item">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        <div class="trust-item-text">
+          <div class="trust-item-label">Produkte Autentike</div>
+          <div class="trust-item-sub">Të certifikuara & të testuara</div>
+        </div>
+      </div>
+      <div class="trust-item">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+        <div class="trust-item-text">
+          <div class="trust-item-label">Pagesë e Sigurt</div>
+          <div class="trust-item-sub">SSL + Stripe encrypted</div>
+        </div>
+      </div>
+      <div class="trust-item">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+        <div class="trust-item-text">
+          <div class="trust-item-label">Kthim i Lehtë</div>
+          <div class="trust-item-sub">30 ditë pa pyetje</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CATEGORIES ===== -->
+<section class="section" id="categories" aria-labelledby="cat-heading">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <p class="label label-line">Kategoritë</p>
+        <h2 class="section-title" id="cat-heading">
+          Gjej <span class="accent">Produktin</span><br>e Duhur
+        </h2>
+      </div>
+      <a href="products.html" class="btn btn-outline">Të gjitha produktet</a>
+    </div>
+    <div class="categories-grid" id="categories-grid">
+      <!-- Rendered by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ===== FEATURED PRODUCTS ===== -->
+<section class="section" style="padding-top:0" aria-labelledby="featured-heading">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <p class="label label-line">Bestsellers</p>
+        <h2 class="section-title" id="featured-heading">
+          Produktet <span class="accent">Top</span>
+        </h2>
+      </div>
+      <a href="products.html" class="btn btn-outline">Shiko të gjitha</a>
+    </div>
+    <div class="products-grid" id="featured-grid">
+      <!-- Rendered by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHY US ===== -->
+<section class="section why-section" aria-labelledby="why-heading">
+  <div class="container">
+    <div class="why-grid">
+      <div class="fade-up">
+        <p class="label label-line" style="margin-bottom:20px">Pse ne?</p>
+        <h2 class="section-title" id="why-heading" style="margin-bottom:20px">
+          Standarde <span class="accent">Premium</span><br>Pa Kompromis
+        </h2>
+        <p style="color:var(--muted);font-size:1rem;line-height:1.8;max-width:480px;margin-bottom:36px">
+          Çdo produkt në dyqanin tonë kalon testime rigoroze cilësie. Punojmë vetëm me prodhues të certifikuar dhe ofrojmë transparencë të plotë mbi ingredients.
+        </p>
+        <a href="products.html" class="btn btn-primary">Zbulo Koleksionin</a>
+      </div>
+      <div class="why-features">
+        <div class="why-big-number" aria-hidden="true">100%</div>
+        <div class="why-feature fade-up">
+          <div class="why-feature-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg>
+          </div>
+          <div>
+            <div class="why-feature-title">Autenticiteti i Garantuar</div>
+            <p class="why-feature-desc">Të gjitha produktet janë origjinale me certifikim ndërkombëtar. Asnjë falsifikim, asnjë kompromis me cilësinë.</p>
+          </div>
+        </div>
+        <div class="why-feature fade-up fade-up-delay-1">
+          <div class="why-feature-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+          </div>
+          <div>
+            <div class="why-feature-title">Transparency e Plotë</div>
+            <p class="why-feature-desc">Çdo produkt vjen me analizë të plotë të ingredients, makro-nutrientëve dhe certifikatën e laboratorit.</p>
+          </div>
+        </div>
+        <div class="why-feature fade-up fade-up-delay-2">
+          <div class="why-feature-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          </div>
+          <div>
+            <div class="why-feature-title">Ekspertizë & Mbështetje</div>
+            <p class="why-feature-desc">Ekipi ynë i ekspertëve është gjithmonë i gatshëm të të ndihmojë me zgjedhjen e produktit të duhur.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== NEWSLETTER ===== -->
+<section class="section newsletter-section" id="kontakt" aria-labelledby="newsletter-heading">
+  <div class="container">
+    <div class="newsletter-inner fade-up">
+      <p class="label label-line" style="justify-content:center;margin-bottom:16px">Newsletter</p>
+      <h2 class="newsletter-title" id="newsletter-heading">
+        QËNDRO I<br><span style="color:var(--orange)">INFORMUAR</span>
+      </h2>
+      <p class="newsletter-sub">
+        Regjistrohu dhe merr oferta ekskluzive, lajme mbi produktet e reja dhe këshilla ushqimore direkt në inbox.
+      </p>
+      <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+        <input type="email" class="newsletter-input" placeholder="eMail-i yt..." required aria-label="Adresa email">
+        <button type="submit" class="btn btn-primary">Regjistrohu</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer aria-label="Footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="footer-logo">POWER<span>FIT</span></a>
+        <p class="footer-desc">
+          Dyqani juaj i besuar për suplemente cilësore. Ofrojmë produktet më të mira për performancën tuaj sportive, me çmime të arsyeshme dhe shërbim të shkëlqyer.
+        </p>
+        <div class="footer-socials">
+          <a href="#" class="social-btn" aria-label="Instagram">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+          </a>
+          <a href="#" class="social-btn" aria-label="Facebook">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+          </a>
+          <a href="#" class="social-btn" aria-label="TikTok">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg>
+          </a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-heading">Produktet</div>
+        <ul class="footer-links">
+          <li><a href="products.html?cat=proteina">Proteina</a></li>
+          <li><a href="products.html?cat=kreatina">Kreatina</a></li>
+          <li><a href="products.html?cat=aminoacide">Aminoacide</a></li>
+          <li><a href="products.html?cat=vitamina">Vitamina</a></li>
+          <li><a href="products.html?cat=preworkout">Pre-Workout</a></li>
+          <li><a href="products.html?cat=massgainer">Mass Gainer</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Informacion</div>
+        <ul class="footer-links">
+          <li><a href="#">Rreth Nesh</a></li>
+          <li><a href="#">Politika e Privatësisë</a></li>
+          <li><a href="#">Kushtet e Shërbimit</a></li>
+          <li><a href="#">Politika e Kthimit</a></li>
+          <li><a href="#">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Kontakt</div>
+        <ul class="footer-links">
+          <li><a href="mailto:info@powerfit.al">info@powerfit.al</a></li>
+          <li><a href="tel:+355699999999">+355 69 999 9999</a></li>
+          <li style="color:var(--muted);font-size:0.88rem;cursor:default">Rruga Dëshmorët e Kombit<br>Tiranë, Shqipëri</li>
+          <li style="color:var(--muted);font-size:0.88rem;cursor:default;margin-top:4px">E Hënë — E Shtunë<br>09:00 — 19:00</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 PowerFit Supplements. Të gjitha të drejtat të rezervuara.<br>
+        <span style="font-size:0.75rem">Projekt nga Albion Çaushi &amp; Bjorni Kule — Hermann Gmeiner, Klasa 11-B</span>
+      </p>
+      <div class="footer-pay">
+        <span class="pay-icon">VISA</span>
+        <span class="pay-icon">MC</span>
+        <span class="pay-icon">STRIPE</span>
+        <span class="pay-icon">SSL</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/products-data.js"></script>
+<script src="js/cart.js"></script>
+<script>
+  /* Render categories */
+  const categoriesGrid = document.getElementById('categories-grid');
+  if (categoriesGrid) {
+    const catColors = {
+      proteina: 'linear-gradient(135deg,#1a0d2e,#2d1854)',
+      kreatina: 'linear-gradient(135deg,#1a0a0a,#2d1010)',
+      aminoacide: 'linear-gradient(135deg,#0a1a1a,#0e2a2a)',
+      vitamina: 'linear-gradient(135deg,#0a1a0a,#0e2a0e)',
+      preworkout: 'linear-gradient(135deg,#1a0f00,#2d1a00)',
+      massgainer: 'linear-gradient(135deg,#100a1a,#1e1030)'
+    };
+    const catCardSizes = ['cat-card-lg', '', '', '', '', ''];
+    categoriesGrid.innerHTML = CATEGORIES.map((cat, i) => `
+      <a href="products.html?cat=${cat.id}" class="cat-card ${catCardSizes[i]}" style="background:${catColors[cat.id]}">
+        <div class="cat-img">
+          <div class="cat-overlay"></div>
+          <div class="cat-content">
+            <div class="cat-count">${cat.count} Produkte</div>
+            <div class="cat-name">${cat.emoji} ${cat.label}</div>
+          </div>
+        </div>
+        <div class="cat-arrow" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+        </div>
+      </a>
+    `).join('');
+  }
+
+  /* Render featured products */
+  const featuredGrid = document.getElementById('featured-grid');
+  if (featuredGrid) {
+    const featured = PRODUCTS.filter(p => p.featured);
+    featuredGrid.innerHTML = featured.map((p, i) => renderProductCard(p, i)).join('');
+    setTimeout(() => initScrollAnimations(), 100);
+  }
+
+  function handleNewsletter(e) {
+    e.preventDefault();
+    const input = e.target.querySelector('input');
+    showToast('Faleminderit!', 'U regjistruat me sukses në newsletter.', '📧');
+    input.value = '';
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+# Stripe keys & konfigurim sekret
+php/config.php
+
+# Composer dependencies
+php/vendor/
+php/composer.lock
+
+# System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.suo
+*.user
