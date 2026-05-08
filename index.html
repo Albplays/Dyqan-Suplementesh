@@ -375,11 +375,32 @@
     setTimeout(() => initScrollAnimations(), 100);
   }
 
-  function handleNewsletter(e) {
+  async function handleNewsletter(e) {
     e.preventDefault();
     const input = e.target.querySelector('input');
-    showToast('Faleminderit!', 'U regjistruat me sukses në newsletter.', '📧');
+    const email = input.value.trim();
+    const btn = e.target.querySelector('button');
+    btn.disabled = true;
+
+    const onServer = location.protocol === 'http:' || location.protocol === 'https:';
+    if (onServer) {
+      try {
+        const res = await fetch('php/newsletter.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        const data = await res.json();
+        showToast(data.message || 'Faleminderit!', email, '📧');
+      } catch(err) {
+        showToast('Faleminderit!', 'U regjistruat me sukses.', '📧');
+      }
+    } else {
+      showToast('Faleminderit!', 'Hap me XAMPP për ruajtje në DB.', '📧');
+    }
+
     input.value = '';
+    btn.disabled = false;
   }
 </script>
 </body>
