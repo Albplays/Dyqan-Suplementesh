@@ -1,8 +1,5 @@
 <?php
-/**
- * PowerFit Supplements — Auth Helpers
- * Kërkon config.php të jetë i ngarkuar para kësaj.
- */
+
 
 function getDB(): PDO {
     static $pdo = null;

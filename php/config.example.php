@@ -1,8 +1,4 @@
 <?php
-/**
- * PowerFit Supplements - Konfigurimi
- * Kopjo këtë file si config.php dhe vendos çelësat e tu.
- */
 
 define('STRIPE_SECRET_KEY', 'sk_test_VENDOS_KETU');
 define('STRIPE_PUBLISHABLE_KEY', 'pk_test_VENDOS_KETU');

@@ -1,12 +1,5 @@
 <?php
-/**
- * PowerFit Supplements — Stripe Webhook Handler
- *
- * Konfiguro këtë URL në Stripe Dashboard:
- * https://dashboard.stripe.com/webhooks
- * → Add endpoint → URL: https://yourdomain.com/php/webhook.php
- * → Events: payment_intent.succeeded, payment_intent.payment_failed
- */
+
 
 require_once 'config.php';
 

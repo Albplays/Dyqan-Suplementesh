@@ -1,6 +1,3 @@
--- PowerFit Supplements — Konfigurimi i Bazës së të Dhënave
--- Albion Çaushi & Bjorni Kule — Hermann Gmeiner, Klasa 11-B
--- Ekzekuto këtë file në phpMyAdmin ose MySQL CLI
 
 CREATE DATABASE IF NOT EXISTS powerfit_db
   CHARACTER SET utf8mb4
