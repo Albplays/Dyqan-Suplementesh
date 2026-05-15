@@ -31,6 +31,16 @@ CREATE TABLE IF NOT EXISTS orders (
   INDEX idx_created   (created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- ===== TABELA E PËRDORUESVE =====
+CREATE TABLE IF NOT EXISTS users (
+  id            INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name          VARCHAR(150) NOT NULL,
+  email         VARCHAR(255) NOT NULL UNIQUE,
+  password_hash VARCHAR(255) NOT NULL,
+  created_at    DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_email (email)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- ===== TABELA E NEWSLETTER =====
 CREATE TABLE IF NOT EXISTS newsletter_subscribers (
   id           INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,

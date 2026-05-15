@@ -1,3 +1,10 @@
+/* ===== ANNOUNCEMENT BAR ===== */
+function closeBar() {
+  const bar = document.getElementById('announcement-bar');
+  if (bar) bar.style.display = 'none';
+  document.documentElement.style.setProperty('--bar-h', '0px');
+}
+
 /* ===== CART MANAGER ===== */
 const Cart = {
   get() {

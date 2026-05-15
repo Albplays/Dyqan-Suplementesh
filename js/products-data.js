@@ -2,6 +2,7 @@ const PRODUCTS = [
   {
     id: 1,
     name: "Whey Protein Gold",
+    apiSearch: "whey protein",
     category: "proteina",
     categoryLabel: "Proteina",
     price: 35.99,
@@ -15,11 +16,13 @@ const PRODUCTS = [
     bgColor: "#1a0d2e",
     accentColor: "#a855f7",
     emoji: "💪",
+    image: "images/whey-protein.jpg",
     featured: true
   },
   {
     id: 2,
     name: "Kreatinë Monohidrat",
+    apiSearch: "creatine monohydrate",
     category: "kreatina",
     categoryLabel: "Kreatina",
     price: 18.99,
@@ -33,11 +36,13 @@ const PRODUCTS = [
     bgColor: "#1a0a0a",
     accentColor: "#ef4444",
     emoji: "⚡",
+    image: "images/kreatine.jpg",
     featured: true
   },
   {
     id: 3,
     name: "BCAA 2:1:1 Pro",
+    apiSearch: "bcaa amino acids",
     category: "aminoacide",
     categoryLabel: "Aminoacide",
     price: 24.99,
@@ -51,11 +56,13 @@ const PRODUCTS = [
     bgColor: "#0a1a1a",
     accentColor: "#06b6d4",
     emoji: "🔬",
+    image: "images/bcaa.jpg",
     featured: true
   },
   {
     id: 4,
     name: "Pre-Workout Extreme",
+    apiSearch: "pre workout",
     category: "preworkout",
     categoryLabel: "Pre-Workout",
     price: 32.99,
@@ -69,11 +76,13 @@ const PRODUCTS = [
     bgColor: "#1a0f00",
     accentColor: "#FF6B35",
     emoji: "🔥",
+    image: "images/preworkout.jpg",
     featured: true
   },
   {
     id: 5,
     name: "Multivitaminë Sport",
+    apiSearch: "multivitamin sport",
     category: "vitamina",
     categoryLabel: "Vitamina",
     price: 19.99,
@@ -87,11 +96,13 @@ const PRODUCTS = [
     bgColor: "#0a1a0a",
     accentColor: "#22c55e",
     emoji: "🌿",
+    image: "images/multivitamin.jpg",
     featured: false
   },
   {
     id: 6,
     name: "Omega-3 Fish Oil",
+    apiSearch: "omega 3 fish oil",
     category: "vitamina",
     categoryLabel: "Vitamina",
     price: 14.99,
@@ -105,11 +116,13 @@ const PRODUCTS = [
     bgColor: "#0a1018",
     accentColor: "#3b82f6",
     emoji: "🐟",
+    image: "images/omega3.jpg",
     featured: false
   },
   {
     id: 7,
     name: "Mass Gainer Pro",
+    apiSearch: "mass gainer protein",
     category: "massgainer",
     categoryLabel: "Mass Gainer",
     price: 44.99,
@@ -123,11 +136,13 @@ const PRODUCTS = [
     bgColor: "#100a1a",
     accentColor: "#8b5cf6",
     emoji: "🏋️",
+    image: "images/massgainer.jpg",
     featured: false
   },
   {
     id: 8,
     name: "Collagen Hydrolyzed",
+    apiSearch: "collagen hydrolyzed",
     category: "vitamina",
     categoryLabel: "Vitamina",
     price: 28.99,
@@ -141,11 +156,13 @@ const PRODUCTS = [
     bgColor: "#1a1008",
     accentColor: "#f59e0b",
     emoji: "✨",
+    image: "images/collagen.jpg",
     featured: false
   },
   {
     id: 9,
     name: "Casein Protein Night",
+    apiSearch: "casein protein",
     category: "proteina",
     categoryLabel: "Proteina",
     price: 39.99,
@@ -159,11 +176,13 @@ const PRODUCTS = [
     bgColor: "#1a0d2e",
     accentColor: "#a855f7",
     emoji: "🌙",
+    image: "images/casein.jpg",
     featured: false
   },
   {
     id: 10,
     name: "L-Glutamine Pure",
+    apiSearch: "glutamine",
     category: "aminoacide",
     categoryLabel: "Aminoacide",
     price: 16.99,
@@ -177,11 +196,13 @@ const PRODUCTS = [
     bgColor: "#0a1a1a",
     accentColor: "#06b6d4",
     emoji: "⚗️",
+    image: "images/glutamine.jpg",
     featured: false
   },
   {
     id: 11,
     name: "ZMA — Zinc Magnesium",
+    apiSearch: "zinc magnesium supplement",
     category: "vitamina",
     categoryLabel: "Vitamina",
     price: 22.99,
@@ -195,11 +216,13 @@ const PRODUCTS = [
     bgColor: "#0a1a0a",
     accentColor: "#22c55e",
     emoji: "🛡️",
+    image: "images/zma.jpg",
     featured: false
   },
   {
     id: 12,
     name: "Vitamin D3 + K2",
+    apiSearch: "vitamin d3 k2",
     category: "vitamina",
     categoryLabel: "Vitamina",
     price: 12.99,
@@ -213,6 +236,7 @@ const PRODUCTS = [
     bgColor: "#1a1008",
     accentColor: "#f59e0b",
     emoji: "☀️",
+    image: "images/vitamind3.jpg",
     featured: false
   }
 ];
@@ -267,13 +291,19 @@ function renderProductCard(product, index = 0) {
           ${renderStars(product.rating)}
           <span class="rating-count">(${product.reviews})</span>
         </div>
-        <div class="product-footer">
-          <div class="product-price">
-            <span class="price-main">€${product.price.toFixed(2)}</span>
-            ${product.oldPrice ? `<span class="price-old">€${product.oldPrice.toFixed(2)}</span>` : ''}
+        <div style="margin-top:auto">
+          <div class="product-footer">
+            <div class="product-price">
+              <span class="price-main">€${product.price.toFixed(2)}</span>
+              ${product.oldPrice ? `<span class="price-old">€${product.oldPrice.toFixed(2)}</span>` : ''}
+            </div>
+            <button class="add-to-cart" onclick="addToCart(${product.id})" aria-label="Shto në shportë">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+            </button>
           </div>
-          <button class="add-to-cart" onclick="addToCart(${product.id})" aria-label="Shto në shportë">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+          <button class="btn-nutrition" onclick="showNutrition(${product.id})" title="Vlerat Ushqyese">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            Vlerat Ushqyese
           </button>
         </div>
       </div>

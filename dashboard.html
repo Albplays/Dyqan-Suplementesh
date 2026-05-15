@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Dashboard — PowerFit Supplements">
+  <title>Dashboard — PowerFit Supplements</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💪</text></svg>">
+  <style>
+    .dash-page { padding: 60px 0 100px; }
+    .dash-welcome {
+      background: linear-gradient(135deg, var(--bg-2) 0%, var(--bg-3) 100%);
+      border-bottom: 1px solid var(--border);
+      padding: calc(var(--header-h) + 48px) 0 40px;
+      margin-bottom: 48px;
+    }
+    .dash-welcome-inner {
+      display: flex; align-items: center; gap: 24px;
+    }
+    .dash-avatar-lg {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: var(--orange); color: var(--bg);
+      font-size: 2rem; font-weight: 800;
+      font-family: var(--font-display);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; box-shadow: 0 0 30px rgba(255,107,53,0.3);
+    }
+    .dash-welcome-text { flex: 1; }
+    .dash-welcome-label {
+      font-family: var(--font-condensed);
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 6px;
+    }
+    .dash-welcome-name {
+      font-family: var(--font-display);
+      font-size: 2.4rem; color: var(--white); line-height: 1;
+    }
+    .dash-welcome-email { font-size: 0.88rem; color: var(--muted); margin-top: 6px; }
+    .dash-stats {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+      margin-bottom: 48px;
+    }
+    .dash-stat {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 24px;
+      transition: var(--t);
+    }
+    .dash-stat:hover { border-color: var(--orange); }
+    .dash-stat-icon {
+      width: 40px; height: 40px; border-radius: var(--radius);
+      background: rgba(255,107,53,0.1); border: 1px solid rgba(255,107,53,0.2);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 14px; color: var(--orange);
+    }
+    .dash-stat-val {
+      font-family: var(--font-display); font-size: 2.2rem;
+      color: var(--white); line-height: 1; margin-bottom: 4px;
+    }
+    .dash-stat-lbl { font-size: 0.82rem; color: var(--muted); }
+    .dash-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+    }
+    .dash-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 28px;
+    }
+    .dash-card-title {
+      font-family: var(--font-condensed); font-size: 0.8rem;
+      font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 20px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .dash-card-title::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+    .dash-profile-row {
+      display: flex; justify-content: space-between;
+      padding: 10px 0; border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+    .dash-profile-row:last-child { border-bottom: none; }
+    .dash-profile-key { color: var(--muted); }
+    .dash-profile-val { color: var(--white); font-weight: 600; }
+    .dash-cart-item {
+      display: flex; align-items: center; gap: 14px;
+      padding: 10px 0; border-bottom: 1px solid var(--border);
+    }
+    .dash-cart-item:last-child { border-bottom: none; }
+    .dash-cart-emoji {
+      width: 38px; height: 38px; border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; flex-shrink: 0;
+    }
+    .dash-cart-name { font-size: 0.88rem; font-weight: 600; color: var(--text); }
+    .dash-cart-price { font-size: 0.82rem; color: var(--muted); }
+    .dash-cart-qty {
+      margin-left: auto; font-family: var(--font-condensed);
+      font-size: 0.78rem; font-weight: 700;
+      color: var(--orange); white-space: nowrap;
+    }
+    .dash-empty {
+      text-align: center; padding: 32px 0;
+      color: var(--muted); font-size: 0.88rem;
+    }
+    .dash-empty svg { margin: 0 auto 12px; opacity: 0.3; display: block; }
+    .dash-orders-table {
+      width: 100%; border-collapse: collapse; font-size: 0.86rem;
+    }
+    .dash-orders-table th {
+      text-align: left; padding: 8px 12px;
+      font-family: var(--font-condensed); font-size: 0.72rem;
+      font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--muted); border-bottom: 1px solid var(--border);
+    }
+    .dash-orders-table td {
+      padding: 10px 12px; border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+    .dash-orders-table tr:last-child td { border-bottom: none; }
+    .status-badge {
+      display: inline-block; padding: 3px 8px;
+      border-radius: 2px; font-size: 0.72rem; font-weight: 700;
+      font-family: var(--font-condensed); letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .status-paid     { background: rgba(34,197,94,0.15);  color: #22c55e; }
+    .status-pending  { background: rgba(234,179,8,0.15);  color: #eab308; }
+    .status-shipped  { background: rgba(59,130,246,0.15); color: #3b82f6; }
+    .status-delivered{ background: rgba(34,197,94,0.2);   color: #22c55e; }
+    .status-cancelled{ background: rgba(239,68,68,0.15);  color: #ef4444; }
+    .dash-quick-links {
+      display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap;
+    }
+    #dash-loading {
+      display: flex; align-items: center; justify-content: center;
+      min-height: 60vh; font-family: var(--font-condensed);
+      font-size: 1rem; letter-spacing: 0.15em; color: var(--muted);
+      text-transform: uppercase;
+    }
+    @media (max-width: 768px) {
+      .dash-stats { grid-template-columns: 1fr 1fr; }
+      .dash-grid  { grid-template-columns: 1fr; }
+      .dash-welcome-name { font-size: 1.8rem; }
+    }
+    @media (max-width: 480px) {
+      .dash-stats { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== ANNOUNCEMENT BAR ===== -->
+<div class="announcement-bar" id="announcement-bar">
+  🚚 Shpërndarje FALAS për porosi mbi €50
+  <span>|</span>
+  Produktet autentike me certifikim ndërkombëtar
+  <button onclick="closeBar()" aria-label="Mbyll" style="position:absolute;right:16px;top:50%;transform:translateY(-50%);background:none;border:none;color:inherit;font-size:1.1rem;cursor:pointer;opacity:0.7;line-height:1;padding:4px 6px;">✕</button>
+</div>
+
+<!-- ===== NAVIGATION ===== -->
+<nav aria-label="Navigimi kryesor">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      POWER<span class="accent">FIT</span>
+      <span class="sub">Supplements</span>
+    </a>
+    <ul class="nav-links" role="list">
+      <li><a href="index.html">Kreu</a></li>
+      <li><a href="products.html">Produktet</a></li>
+      <li><a href="products.html?cat=proteina">Proteina</a></li>
+      <li><a href="products.html?cat=vitamina">Vitamina</a></li>
+      <li><a href="index.html#kontakt">Kontakt</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="cart.html" class="cart-trigger" aria-label="Shporta">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        Shporta
+        <span class="cart-count" style="display:none">0</span>
+      </a>
+      <div class="nav-auth" id="nav-auth"></div>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== MOBILE MENU ===== -->
+<nav class="mobile-menu" aria-label="Menu mobile">
+  <div class="mobile-menu-links">
+    <a href="index.html">Kreu</a>
+    <a href="products.html">Produktet</a>
+    <a href="cart.html">Shporta</a>
+    <a href="dashboard.html" class="active" id="mobile-auth-link">Dashboard</a>
+  </div>
+</nav>
+
+<!-- ===== LOADING STATE ===== -->
+<div id="dash-loading">Duke ngarkuar...</div>
+
+<!-- ===== DASHBOARD CONTENT ===== -->
+<div id="dash-content" style="display:none">
+
+  <!-- Welcome -->
+  <div class="dash-welcome">
+    <div class="container">
+      <div class="dash-welcome-inner">
+        <div class="dash-avatar-lg" id="dash-avatar">A</div>
+        <div class="dash-welcome-text">
+          <div class="dash-welcome-label">Panel Përdoruesit</div>
+          <div class="dash-welcome-name" id="dash-name">Mirësevjen!</div>
+          <div class="dash-welcome-email" id="dash-email"></div>
+        </div>
+        <a href="products.html" class="btn btn-primary" style="flex-shrink:0">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          Bli Tani
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="dash-page">
+    <div class="container">
+
+      <!-- Stats -->
+      <div class="dash-stats">
+        <div class="dash-stat">
+          <div class="dash-stat-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          </div>
+          <div class="dash-stat-val" id="stat-cart">0</div>
+          <div class="dash-stat-lbl">Produkte në shportë</div>
+        </div>
+        <div class="dash-stat">
+          <div class="dash-stat-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+          <div class="dash-stat-val" id="stat-wish">0</div>
+          <div class="dash-stat-lbl">Produkte të preferuara</div>
+        </div>
+        <div class="dash-stat">
+          <div class="dash-stat-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          </div>
+          <div class="dash-stat-val" id="stat-orders">0</div>
+          <div class="dash-stat-lbl">Porosi të kryera</div>
+        </div>
+      </div>
+
+      <!-- Grid -->
+      <div class="dash-grid">
+
+        <!-- Profile -->
+        <div class="dash-card">
+          <div class="dash-card-title">Profili Im</div>
+          <div class="dash-profile-row">
+            <span class="dash-profile-key">Emri</span>
+            <span class="dash-profile-val" id="prof-name">—</span>
+          </div>
+          <div class="dash-profile-row">
+            <span class="dash-profile-key">Email</span>
+            <span class="dash-profile-val" id="prof-email">—</span>
+          </div>
+          <div class="dash-profile-row">
+            <span class="dash-profile-key">Anëtar që nga</span>
+            <span class="dash-profile-val" id="prof-since">—</span>
+          </div>
+          <div class="dash-profile-row">
+            <span class="dash-profile-key">Statusi</span>
+            <span class="dash-profile-val" style="color:var(--success)">✓ Aktiv</span>
+          </div>
+          <div class="dash-quick-links">
+            <a href="products.html" class="btn btn-outline btn-sm">Produkte</a>
+            <a href="cart.html" class="btn btn-outline btn-sm">Shporta</a>
+          </div>
+        </div>
+
+        <!-- Cart items -->
+        <div class="dash-card">
+          <div class="dash-card-title">Shporta Aktuale</div>
+          <div id="dash-cart-list"></div>
+        </div>
+
+        <!-- Orders — full width -->
+        <div class="dash-card" style="grid-column: 1 / -1;">
+          <div class="dash-card-title">Porositë e Fundit</div>
+          <div id="dash-orders-list"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/products-data.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  const onServer = location.protocol === 'http:' || location.protocol === 'https:';
+
+  /* Access control — redirect if not logged in */
+  async function initDashboard() {
+    if (!onServer) {
+      document.getElementById('dash-loading').innerHTML =
+        '<div style="text-align:center;padding:60px 20px;color:var(--muted)">Hap me XAMPP për të parë dashboardin.</div>';
+      return;
+    }
+
+    try {
+      const res  = await fetch('php/auth-check.php', { credentials: 'same-origin' });
+      const data = await res.json();
+      if (!data.logged_in) {
+        window.location.href = 'login.html';
+        return;
+      }
+      renderDashboard(data.user);
+    } catch {
+      window.location.href = 'login.html';
+    }
+  }
+
+  function renderDashboard(user) {
+    document.getElementById('dash-loading').style.display = 'none';
+    document.getElementById('dash-content').style.display = 'block';
+
+    /* Welcome */
+    document.getElementById('dash-avatar').textContent = user.name.charAt(0).toUpperCase();
+    document.getElementById('dash-name').textContent   = 'Mirësevjen, ' + user.name.split(' ')[0] + '!';
+    document.getElementById('dash-email').textContent  = user.email;
+
+    /* Profile */
+    document.getElementById('prof-name').textContent  = user.name;
+    document.getElementById('prof-email').textContent = user.email;
+    document.getElementById('prof-since').textContent = new Date().toLocaleDateString('sq-AL', {
+      year: 'numeric', month: 'long', day: 'numeric'
+    });
+
+    /* Cart stats */
+    const cartItems = Cart.get();
+    const wishItems = Wishlist.get();
+    document.getElementById('stat-cart').textContent = Cart.count();
+    document.getElementById('stat-wish').textContent = wishItems.length;
+
+    /* Cart list */
+    const cartList = document.getElementById('dash-cart-list');
+    if (cartItems.length === 0) {
+      cartList.innerHTML = `<div class="dash-empty">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <p>Shporta është bosh. <a href="products.html" style="color:var(--orange)">Shiko produktet</a>.</p>
+      </div>`;
+    } else {
+      cartList.innerHTML = cartItems.map(item => `
+        <div class="dash-cart-item">
+          <div class="dash-cart-emoji" style="background:${item.bgColor}22">${item.emoji}</div>
+          <div>
+            <div class="dash-cart-name">${item.name}</div>
+            <div class="dash-cart-price">€${item.price.toFixed(2)} / copë</div>
+          </div>
+          <div class="dash-cart-qty">x${item.qty}</div>
+        </div>`).join('');
+    }
+
+    /* Orders from DB */
+    loadOrders(user);
+  }
+
+  async function loadOrders(user) {
+    const ordersEl = document.getElementById('dash-orders-list');
+    try {
+      const res  = await fetch('php/dashboard-data.php', { credentials: 'same-origin' });
+      const data = await res.json();
+      const orders = data.orders || [];
+
+      document.getElementById('stat-orders').textContent = orders.length;
+
+      if (orders.length === 0) {
+        ordersEl.innerHTML = `<div class="dash-empty">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          <p>Nuk ke ende porosi. <a href="products.html" style="color:var(--orange)">Bli tani</a>.</p>
+        </div>`;
+      } else {
+        const statusLabel = { paid:'Paguar', pending:'Në pritje', shipped:'Dërguar', delivered:'Dorëzuar', cancelled:'Anuluar' };
+        ordersEl.innerHTML = `
+          <table class="dash-orders-table">
+            <thead>
+              <tr>
+                <th>Nr. Porosisë</th>
+                <th>Data</th>
+                <th>Totali</th>
+                <th>Statusi</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${orders.map(o => `
+                <tr>
+                  <td style="font-family:var(--font-condensed);font-weight:700;color:var(--orange)">${o.order_number}</td>
+                  <td>${new Date(o.created_at).toLocaleDateString('sq-AL')}</td>
+                  <td style="font-weight:700">€${parseFloat(o.total).toFixed(2)}</td>
+                  <td><span class="status-badge status-${o.status}">${statusLabel[o.status] || o.status}</span></td>
+                </tr>`).join('')}
+            </tbody>
+          </table>`;
+      }
+    } catch {
+      ordersEl.innerHTML = `<div class="dash-empty"><p>Nuk u ngarkuan porositë.</p></div>`;
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', initDashboard);
+</script>
+</body>
+</html>
