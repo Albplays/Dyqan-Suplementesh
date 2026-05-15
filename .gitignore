@@ -5,6 +5,9 @@ php/config.php
 php/vendor/
 php/composer.lock
 
+# Images lokale
+images/
+
 # System files
 .DS_Store
 Thumbs.db
